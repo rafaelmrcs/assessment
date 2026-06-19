@@ -1,0 +1,41 @@
+Technical Proficiency Assessment: Entry Level Tech Developer
+Part 1: PHP Assessment
+1. How do you properly open and close a PHP code block in a file?
+2. What prefix character is used for all variable names in PHP?
+3.
+4. Explain the difference between single quotes ('') and double quotes ("") when
+defining strings.
+5. Create an indexed array called $colors containing "red", "green", and "blue".
+6. What is the purpose of the echo statement?
+7. Write a simple if/else statement that checks if a variable $score is greater than
+50.
+8. Which loop would you use if you want to execute a block of code a specific
+number of times?
+9. How do you define a custom function in PHP that accepts one parameter?
+10.What is the difference between the == and === operators?
+11. How do you concatenate two strings in PHP?
+
+Part 2: Bonus - Page Builders
+1. In Elementor Pro, how do you create a global "Theme Part" like a Header or
+Footer?
+2. What is the primary benefit of using the Divi 5 (Foundation) update regarding site
+performance?
+3. How do you use "Dynamic Tags" in Elementor to pull a post title into a heading
+widget?
+4. In Divi, what is the difference between a Row and a Module?
+Part 3: Basic AI Knowledge
+1. What are the security risks associated with using AI-generated code, and how
+can developers mitigate them?
+2. Can you explain how "context window" limitations affect how a developer
+interacts with an AI coding assistant?
+
+3. In your own words, describe the ethical considerations of using AI for web
+development tasks.
+4. How does a vector database work in relation to AI-powered search features on a
+website?
+5. What are some common use cases for integrating AI APIs (like OpenAI's or
+Anthropic's) into a WordPress-based application?
+
+Instructions for Submission:
+Please provide your answers in a text format or a link to a repository/sandbox
+environment. We value your problem-solving process as much as the final result.

@@ -1,0 +1,183 @@
+Technical Proficiency Assessment: Entry Level Tech Developer
+Completed Answers
+
+Part 1: PHP Assessment
+
+1. How do you properly open and close a PHP code block in a file?
+
+Answer:
+Open a PHP block with <?php and close it with ?>.
+
+Example:
+<?php
+echo "Hello, world!";
+?>
+
+In files that contain only PHP, many developers omit the closing ?> tag to avoid accidental whitespace output.
+
+2. What prefix character is used for all variable names in PHP?
+
+Answer:
+PHP variables are prefixed with a dollar sign: $.
+
+Example:
+$name = "Rafael";
+
+3.
+
+Answer:
+No question was provided for item 3 in the original assessment.
+
+4. Explain the difference between single quotes ('') and double quotes ("") when defining strings.
+
+Answer:
+Single-quoted strings are mostly treated as literal text. Variables inside single quotes are not expanded.
+
+Double-quoted strings allow variable interpolation and recognize more escape sequences, such as \n for a new line.
+
+Example:
+$name = "Rafael";
+echo 'Hello, $name'; // Outputs: Hello, $name
+echo "Hello, $name"; // Outputs: Hello, Rafael
+
+5. Create an indexed array called $colors containing "red", "green", and "blue".
+
+Answer:
+$colors = ["red", "green", "blue"];
+
+6. What is the purpose of the echo statement?
+
+Answer:
+The echo statement outputs text, HTML, variables, or other values to the browser or response body.
+
+Example:
+echo "Welcome to my website!";
+
+7. Write a simple if/else statement that checks if a variable $score is greater than 50.
+
+Answer:
+if ($score > 50) {
+    echo "Passed";
+} else {
+    echo "Failed";
+}
+
+8. Which loop would you use if you want to execute a block of code a specific number of times?
+
+Answer:
+A for loop is usually the best choice when the number of repetitions is known.
+
+Example:
+for ($i = 1; $i <= 5; $i++) {
+    echo $i;
+}
+
+9. How do you define a custom function in PHP that accepts one parameter?
+
+Answer:
+Use the function keyword, followed by the function name and the parameter inside parentheses.
+
+Example:
+function greet($name) {
+    return "Hello, " . $name;
+}
+
+10. What is the difference between the == and === operators?
+
+Answer:
+The == operator checks if two values are equal after PHP performs type conversion.
+
+The === operator checks if two values are equal and are also the same data type.
+
+Example:
+5 == "5";  // true
+5 === "5"; // false
+
+11. How do you concatenate two strings in PHP?
+
+Answer:
+Use the dot operator (.).
+
+Example:
+$firstName = "Ada";
+$lastName = "Lovelace";
+$fullName = $firstName . " " . $lastName;
+
+
+Part 2: Bonus - Page Builders
+
+1. In Elementor Pro, how do you create a global "Theme Part" like a Header or Footer?
+
+Answer:
+In WordPress, go to Elementor's Theme Builder, choose the type of template you want to create, such as Header or Footer, design it in Elementor, then publish it with display conditions. For example, a header can be assigned to the entire site or only to specific pages.
+
+2. What is the primary benefit of using the Divi 5 (Foundation) update regarding site performance?
+
+Answer:
+The main performance benefit of Divi 5's foundation update is that it rebuilds Divi's core architecture to be faster and lighter. The goal is improved builder speed, cleaner output, better responsiveness in the editor, and a stronger technical base for future performance improvements.
+
+3. How do you use "Dynamic Tags" in Elementor to pull a post title into a heading widget?
+
+Answer:
+Edit the Heading widget, click the Dynamic Tags icon beside the title field, and choose Post Title. Elementor will then automatically display the current post's title in that heading.
+
+4. In Divi, what is the difference between a Row and a Module?
+
+Answer:
+A Row is a layout container inside a Section. It controls column structure and spacing.
+
+A Module is the actual content element placed inside a column, such as Text, Image, Button, Contact Form, or Blog.
+
+
+Part 3: Basic AI Knowledge
+
+1. What are the security risks associated with using AI-generated code, and how can developers mitigate them?
+
+Answer:
+AI-generated code can introduce security risks such as SQL injection, cross-site scripting, insecure authentication, exposed API keys, weak validation, outdated dependencies, and logic errors that are not obvious at first glance.
+
+Developers can mitigate these risks by reviewing the code manually, using secure coding standards, validating and sanitizing inputs, escaping outputs, storing secrets in environment variables, running automated security scans, writing tests, and avoiding blind copy-paste into production.
+
+2. Can you explain how "context window" limitations affect how a developer interacts with an AI coding assistant?
+
+Answer:
+A context window is the amount of information an AI assistant can consider at one time. If a project is large, the assistant may not see every file, past decision, or hidden dependency unless the developer provides the right context.
+
+Because of this, developers should give clear instructions, include relevant files or errors, ask the assistant to inspect the codebase, and verify its suggestions. A limited context window can cause the assistant to miss important details or make assumptions.
+
+3. In your own words, describe the ethical considerations of using AI for web development tasks.
+
+Answer:
+Using AI in web development should be done responsibly. Developers should avoid presenting AI work as fully human-created if that matters to the client or employer. They should also protect private data, avoid pasting confidential information into tools without approval, check for copyright or licensing issues, and make sure the final work is accessible, fair, secure, and accurate.
+
+AI can speed up development, but the developer is still responsible for the final result.
+
+4. How does a vector database work in relation to AI-powered search features on a website?
+
+Answer:
+A vector database stores content as numerical representations called embeddings. These embeddings capture the meaning of text rather than only exact keywords.
+
+For an AI-powered website search, pages, posts, products, or documents are converted into embeddings and stored in the vector database. When a visitor searches, their query is also converted into an embedding. The database compares the query embedding with the stored embeddings and returns the most semantically similar results.
+
+This allows the search feature to understand related ideas, synonyms, and natural-language questions better than a basic keyword search.
+
+5. What are some common use cases for integrating AI APIs (like OpenAI's or Anthropic's) into a WordPress-based application?
+
+Answer:
+Common use cases include:
+
+- Generating blog drafts, outlines, titles, excerpts, or meta descriptions.
+- Creating chatbots for customer support or lead qualification.
+- Summarizing long posts, documents, or product information.
+- Improving search with natural-language answers or semantic search.
+- Translating or rewriting content for different audiences.
+- Moderating comments or user-submitted content.
+- Generating product descriptions for WooCommerce.
+- Helping admins classify, tag, or organize content.
+- Creating personalized recommendations based on user behavior.
+
+
+Code File
+
+The PHP code examples for questions 5, 7, 9, and 11 are also included in:
+php_assessment_examples.php

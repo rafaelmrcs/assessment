@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mercado Assessment</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f1eb;
+      --surface: #fffdf8;
+      --ink: #1f2933;
+      --muted: #65717d;
+      --line: #d9d2c5;
+      --accent: #087f8c;
+      --accent-strong: #075e68;
+      --gold: #c07f23;
+      --code-bg: #172126;
+      --code-text: #e6f0ed;
+      --terminal: #0f171a;
+      --terminal-line: #314149;
+      --success: #238053;
+      --danger: #a43d3d;
+      --shadow: 0 16px 40px rgba(31, 41, 51, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(244, 241, 235, 0.95), rgba(244, 241, 235, 1)),
+        repeating-linear-gradient(90deg, rgba(8, 127, 140, 0.06) 0 1px, transparent 1px 70px);
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+      letter-spacing: 0;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      transform: translateY(-150%);
+      background: var(--ink);
+      color: white;
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      z-index: 20;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .pill-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.25rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .pill-button:hover {
+      color: var(--ink);
+      background: #eee8dc;
+    }
+
+    .pill-button {
+      color: white;
+      background: var(--ink);
+    }
+
+    .pill-button:hover {
+      color: white;
+      background: #35424d;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 2.2rem 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(1.55rem, 3vw, 2.4rem);
+      line-height: 1.05;
+    }
+
+    .section-header p {
+      max-width: 56ch;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .qa-grid {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .qa-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: clip;
+      box-shadow: 0 10px 26px rgba(31, 41, 51, 0.06);
+    }
+
+    .qa-card[hidden] {
+      display: none;
+    }
+
+    .qa-question {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      color: var(--ink);
+      background: #fffdf8;
+      text-align: left;
+    }
+
+    .qa-number {
+      display: inline-grid;
+      place-items: center;
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 8px;
+      color: white;
+      background: var(--accent);
+      font-weight: 900;
+      font-size: 0.86rem;
+    }
+
+    .qa-question-text {
+      min-width: 0;
+      font-weight: 800;
+    }
+
+    .qa-answer {
+      display: block;
+      padding: 0 1rem 1rem 3.85rem;
+      color: #3d4852;
+    }
+
+    .qa-answer p {
+      margin: 0.7rem 0;
+    }
+
+    .qa-answer ul {
+      margin: 0.6rem 0 0;
+      padding-left: 1.25rem;
+    }
+
+    .qa-answer li {
+      margin: 0.35rem 0;
+    }
+
+    .code-inline {
+      padding: 0.05rem 0.3rem;
+      border-radius: 5px;
+      background: #ebe3d6;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.94em;
+    }
+
+    pre,
+    textarea {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .code-sample {
+      overflow-x: auto;
+      margin: 0.8rem 0 0;
+      padding: 0.85rem;
+      border-radius: 8px;
+      color: var(--code-text);
+      background: var(--code-bg);
+    }
+
+    .lab {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    .lab-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      overflow: clip;
+      box-shadow: 0 10px 26px rgba(31, 41, 51, 0.06);
+    }
+
+    .editor {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      border-right: 1px solid var(--line);
+    }
+
+    .editor-header,
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      min-height: 3.4rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--line);
+      background: #fbf7ef;
+    }
+
+    .editor-title {
+      min-width: 0;
+    }
+
+    .editor-title strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .editor-title span {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .editor-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex: 0 0 auto;
+    }
+
+    .icon-button {
+      min-width: 2.35rem;
+      min-height: 2.15rem;
+      padding: 0.42rem 0.65rem;
+      border-radius: 8px;
+      color: var(--ink);
+      background: #e8dfd1;
+      font-weight: 800;
+    }
+
+    .icon-button:hover {
+      background: #ded2c0;
+    }
+
+    .icon-button.run {
+      color: white;
+      background: var(--accent);
+    }
+
+    .icon-button.run:hover {
+      background: var(--accent-strong);
+    }
+
+    .editor textarea {
+      width: 100%;
+      min-height: 270px;
+      resize: vertical;
+      border: 0;
+      outline: 0;
+      padding: 1rem;
+      color: var(--code-text);
+      background: var(--code-bg);
+      tab-size: 4;
+    }
+
+    .editor textarea:focus {
+      box-shadow: inset 0 0 0 3px rgba(8, 127, 140, 0.34);
+    }
+
+    .terminal {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--terminal);
+    }
+
+    .terminal-header {
+      border-bottom-color: var(--terminal-line);
+      color: #d9e5df;
+      background: #111b1f;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 0.32rem;
+      align-items: center;
+    }
+
+    .terminal-dots span {
+      width: 0.64rem;
+      height: 0.64rem;
+      border-radius: 50%;
+      background: #d95f5f;
+    }
+
+    .terminal-dots span:nth-child(2) {
+      background: #dfad37;
+    }
+
+    .terminal-dots span:nth-child(3) {
+      background: #4eaa6f;
+    }
+
+    .terminal-title {
+      color: #aebcb9;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+    }
+
+    .terminal-output {
+      flex: 1;
+      min-height: 270px;
+      margin: 0;
+      padding: 1rem;
+      overflow-x: auto;
+      color: #d7e4df;
+      background: var(--terminal);
+      white-space: pre-wrap;
+    }
+
+    .terminal-output::before {
+      content: "$ php answer.php\a";
+      white-space: pre;
+      color: #6fd1b2;
+    }
+
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 30;
+      max-width: min(360px, calc(100% - 2rem));
+      padding: 0.8rem 0.95rem;
+      border-radius: 8px;
+      color: white;
+      background: var(--ink);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(0.7rem);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 880px) {
+      .lab-card {
+        grid-template-columns: 1fr;
+      }
+
+      .editor {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .section-header {
+        display: block;
+      }
+
+      .section-header p {
+        margin-top: 0.5rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .pill-button,
+      .icon-button {
+        width: 100%;
+      }
+
+      .qa-question {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .qa-answer {
+        padding-left: 1rem;
+      }
+
+      .editor-header,
+      .terminal-header {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .editor-actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <main id="content">
+    <section class="section" id="php" aria-labelledby="php-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="php-heading">Part 1: PHP Assessment</h2>
+          <p>Core PHP syntax, control flow, functions, operators, and string handling.</p>
+        </div>
+      </div>
+      <div class="qa-grid" data-qa-section>
+        <article class="qa-card" data-search-text="php open close code block file open php close tag hello world accidental whitespace">
+          <div class="qa-question">
+            <span class="qa-number">1</span>
+            <span class="qa-question-text">How do you properly open and close a PHP code block in a file?</span>
+          </div>
+          <div class="qa-answer">
+            <p>Open a PHP block with <span class="code-inline">&lt;?php</span> and close it with <span class="code-inline">?&gt;</span>.</p>
+            <pre class="code-sample"><code>&lt;?php
+echo "Hello, world!";
+?&gt;</code></pre>
+            <p>In files that contain only PHP, many developers omit the closing <span class="code-inline">?&gt;</span> tag to avoid accidental whitespace output.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="php variables dollar sign prefix name rafael">
+          <div class="qa-question">
+            <span class="qa-number">2</span>
+            <span class="qa-question-text">What prefix character is used for all variable names in PHP?</span>
+          </div>
+          <div class="qa-answer">
+            <p>PHP variables are prefixed with a dollar sign: <span class="code-inline">$</span>.</p>
+            <pre class="code-sample"><code>$name = "Rafael";</code></pre>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="php question 3 blank missing no question provided original assessment">
+          <div class="qa-question">
+            <span class="qa-number">3</span>
+            <span class="qa-question-text">No question text was provided for item 3.</span>
+          </div>
+          <div class="qa-answer">
+            <p>No question was provided for item 3 in the original assessment.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="single quotes double quotes php strings variables interpolation escape sequence newline">
+          <div class="qa-question">
+            <span class="qa-number">4</span>
+            <span class="qa-question-text">Explain the difference between single quotes and double quotes when defining strings.</span>
+          </div>
+          <div class="qa-answer">
+            <p>Single-quoted strings are mostly treated as literal text. Variables inside single quotes are not expanded.</p>
+            <p>Double-quoted strings allow variable interpolation and recognize more escape sequences, such as <span class="code-inline">\n</span> for a new line.</p>
+            <pre class="code-sample"><code>$name = "Rafael";
+echo 'Hello, $name'; // Outputs: Hello, $name
+echo "Hello, $name"; // Outputs: Hello, Rafael</code></pre>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="indexed array colors red green blue php">
+          <div class="qa-question">
+            <span class="qa-number">5</span>
+            <span class="qa-question-text">Create an indexed array called $colors containing "red", "green", and "blue".</span>
+          </div>
+          <div class="qa-answer">
+            <pre class="code-sample"><code>$colors = ["red", "green", "blue"];</code></pre>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="echo statement purpose output text html variables browser response body">
+          <div class="qa-question">
+            <span class="qa-number">6</span>
+            <span class="qa-question-text">What is the purpose of the echo statement?</span>
+          </div>
+          <div class="qa-answer">
+            <p>The <span class="code-inline">echo</span> statement outputs text, HTML, variables, or other values to the browser or response body.</p>
+            <pre class="code-sample"><code>echo "Welcome to my website!";</code></pre>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="if else statement score greater than 50 passed failed php">
+          <div class="qa-question">
+            <span class="qa-number">7</span>
+            <span class="qa-question-text">Write a simple if/else statement that checks if $score is greater than 50.</span>
+          </div>
+          <div class="qa-answer">
+            <pre class="code-sample"><code>if ($score &gt; 50) {
+    echo "Passed";
+} else {
+    echo "Failed";
+}</code></pre>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="loop execute block specific number times for loop repetitions known">
+          <div class="qa-question">
+            <span class="qa-number">8</span>
+            <span class="qa-question-text">Which loop would you use to execute a block of code a specific number of times?</span>
+          </div>
+          <div class="qa-answer">
+            <p>A <span class="code-inline">for</span> loop is usually the best choice when the number of repetitions is known.</p>
+            <pre class="code-sample"><code>for ($i = 1; $i &lt;= 5; $i++) {
+    echo $i;
+}</code></pre>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="custom function accepts one parameter greet name return hello php">
+          <div class="qa-question">
+            <span class="qa-number">9</span>
+            <span class="qa-question-text">How do you define a custom function in PHP that accepts one parameter?</span>
+          </div>
+          <div class="qa-answer">
+            <p>Use the <span class="code-inline">function</span> keyword, followed by the function name and the parameter inside parentheses.</p>
+            <pre class="code-sample"><code>function greet($name) {
+    return "Hello, " . $name;
+}</code></pre>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="difference between == and === operators equal identical type conversion same data type">
+          <div class="qa-question">
+            <span class="qa-number">10</span>
+            <span class="qa-question-text">What is the difference between the == and === operators?</span>
+          </div>
+          <div class="qa-answer">
+            <p>The <span class="code-inline">==</span> operator checks if two values are equal after PHP performs type conversion.</p>
+            <p>The <span class="code-inline">===</span> operator checks if two values are equal and are also the same data type.</p>
+            <pre class="code-sample"><code>5 == "5";  // true
+5 === "5"; // false</code></pre>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="concatenate two strings php dot operator first name last name full name">
+          <div class="qa-question">
+            <span class="qa-number">11</span>
+            <span class="qa-question-text">How do you concatenate two strings in PHP?</span>
+          </div>
+          <div class="qa-answer">
+            <p>Use the dot operator <span class="code-inline">.</span>.</p>
+            <pre class="code-sample"><code>$firstName = "Ada";
+$lastName = "Lovelace";
+$fullName = $firstName . " " . $lastName;</code></pre>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="builders" aria-labelledby="builders-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="builders-heading">Part 2: Bonus - Page Builders</h2>
+          <p>Elementor Pro and Divi fundamentals for theme parts, dynamic content, and layout structure.</p>
+        </div>
+      </div>
+      <div class="qa-grid" data-qa-section>
+        <article class="qa-card" data-search-text="elementor pro create global theme part header footer theme builder display conditions entire site">
+          <div class="qa-question">
+            <span class="qa-number">1</span>
+            <span class="qa-question-text">In Elementor Pro, how do you create a global Theme Part like a Header or Footer?</span>
+          </div>
+          <div class="qa-answer">
+            <p>In WordPress, go to Elementor's Theme Builder, choose the type of template you want to create, such as Header or Footer, design it in Elementor, then publish it with display conditions. For example, a header can be assigned to the entire site or only to specific pages.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="divi 5 foundation performance benefit faster lighter cleaner output responsive editor future improvements">
+          <div class="qa-question">
+            <span class="qa-number">2</span>
+            <span class="qa-question-text">What is the primary benefit of using the Divi 5 Foundation update regarding site performance?</span>
+          </div>
+          <div class="qa-answer">
+            <p>The main performance benefit of Divi 5's foundation update is that it rebuilds Divi's core architecture to be faster and lighter. The goal is improved builder speed, cleaner output, better responsiveness in the editor, and a stronger technical base for future performance improvements.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="dynamic tags elementor post title heading widget title field">
+          <div class="qa-question">
+            <span class="qa-number">3</span>
+            <span class="qa-question-text">How do you use Dynamic Tags in Elementor to pull a post title into a heading widget?</span>
+          </div>
+          <div class="qa-answer">
+            <p>Edit the Heading widget, click the Dynamic Tags icon beside the title field, and choose Post Title. Elementor will then automatically display the current post's title in that heading.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="divi row module difference row layout container section column structure module content element text image button form blog">
+          <div class="qa-question">
+            <span class="qa-number">4</span>
+            <span class="qa-question-text">In Divi, what is the difference between a Row and a Module?</span>
+          </div>
+          <div class="qa-answer">
+            <p>A Row is a layout container inside a Section. It controls column structure and spacing.</p>
+            <p>A Module is the actual content element placed inside a column, such as Text, Image, Button, Contact Form, or Blog.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="ai" aria-labelledby="ai-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="ai-heading">Part 3: Basic AI Knowledge</h2>
+          <p>Security, context windows, ethics, vector databases, and AI API use cases in WordPress.</p>
+        </div>
+      </div>
+      <div class="qa-grid" data-qa-section>
+        <article class="qa-card" data-search-text="security risks ai generated code sql injection xss authentication api keys validation dependencies mitigate review scans tests">
+          <div class="qa-question">
+            <span class="qa-number">1</span>
+            <span class="qa-question-text">What are the security risks associated with AI-generated code, and how can developers mitigate them?</span>
+          </div>
+          <div class="qa-answer">
+            <p>AI-generated code can introduce security risks such as SQL injection, cross-site scripting, insecure authentication, exposed API keys, weak validation, outdated dependencies, and logic errors that are not obvious at first glance.</p>
+            <p>Developers can mitigate these risks by reviewing the code manually, using secure coding standards, validating and sanitizing inputs, escaping outputs, storing secrets in environment variables, running automated security scans, writing tests, and avoiding blind copy-paste into production.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="context window limitations developer interacts ai coding assistant project large hidden dependency assumptions relevant files errors">
+          <div class="qa-question">
+            <span class="qa-number">2</span>
+            <span class="qa-question-text">How do context window limitations affect how a developer interacts with an AI coding assistant?</span>
+          </div>
+          <div class="qa-answer">
+            <p>A context window is the amount of information an AI assistant can consider at one time. If a project is large, the assistant may not see every file, past decision, or hidden dependency unless the developer provides the right context.</p>
+            <p>Because of this, developers should give clear instructions, include relevant files or errors, ask the assistant to inspect the codebase, and verify its suggestions. A limited context window can cause the assistant to miss important details or make assumptions.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="ethical considerations ai web development client employer private data confidential copyright licensing accessible fair secure accurate">
+          <div class="qa-question">
+            <span class="qa-number">3</span>
+            <span class="qa-question-text">In your own words, describe the ethical considerations of using AI for web development tasks.</span>
+          </div>
+          <div class="qa-answer">
+            <p>Using AI in web development should be done responsibly. Developers should avoid presenting AI work as fully human-created if that matters to the client or employer. They should also protect private data, avoid pasting confidential information into tools without approval, check for copyright or licensing issues, and make sure the final work is accessible, fair, secure, and accurate.</p>
+            <p>AI can speed up development, but the developer is still responsible for the final result.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="vector database ai powered search embeddings semantic similar results natural language synonyms keyword">
+          <div class="qa-question">
+            <span class="qa-number">4</span>
+            <span class="qa-question-text">How does a vector database work in relation to AI-powered search features on a website?</span>
+          </div>
+          <div class="qa-answer">
+            <p>A vector database stores content as numerical representations called embeddings. These embeddings capture the meaning of text rather than only exact keywords.</p>
+            <p>For an AI-powered website search, pages, posts, products, or documents are converted into embeddings and stored in the vector database. When a visitor searches, their query is also converted into an embedding. The database compares the query embedding with the stored embeddings and returns the most semantically similar results.</p>
+            <p>This allows the search feature to understand related ideas, synonyms, and natural-language questions better than a basic keyword search.</p>
+          </div>
+        </article>
+
+        <article class="qa-card" data-search-text="common use cases integrating ai apis openai anthropic wordpress blog drafts chatbots summarize semantic search translate moderate comments woocommerce recommendations">
+          <div class="qa-question">
+            <span class="qa-number">5</span>
+            <span class="qa-question-text">What are common use cases for integrating AI APIs into a WordPress-based application?</span>
+          </div>
+          <div class="qa-answer">
+            <p>Common use cases include:</p>
+            <ul>
+              <li>Generating blog drafts, outlines, titles, excerpts, or meta descriptions.</li>
+              <li>Creating chatbots for customer support or lead qualification.</li>
+              <li>Summarizing long posts, documents, or product information.</li>
+              <li>Improving search with natural-language answers or semantic search.</li>
+              <li>Translating or rewriting content for different audiences.</li>
+              <li>Moderating comments or user-submitted content.</li>
+              <li>Generating product descriptions for WooCommerce.</li>
+              <li>Helping admins classify, tag, or organize content.</li>
+              <li>Creating personalized recommendations based on user behavior.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="lab" aria-labelledby="lab-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="lab-heading">Built-In PHP Code Lab</h2>
+          <p>Edit the snippets, run the supported examples, copy the code, or reset them back to the completed assessment answers.</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button class="pill-button" type="button" data-run-all>Run All Snippets</button>
+        <button class="pill-button" type="button" data-reset-all>Reset All Code</button>
+      </div>
+
+      <div class="lab" id="codeLab">
+        <article class="lab-card" data-snippet="colors">
+          <div class="editor">
+            <div class="editor-header">
+              <div class="editor-title">
+                <strong>Question 5: Indexed Array</strong>
+                <span>Editable answer snippet</span>
+              </div>
+              <div class="editor-actions">
+                <button class="icon-button run" type="button" data-run title="Run this snippet">Run</button>
+                <button class="icon-button" type="button" data-reset title="Reset to answer">Reset</button>
+                <button class="icon-button" type="button" data-copy title="Copy code">Copy</button>
+              </div>
+            </div>
+            <textarea spellcheck="false" aria-label="Question 5 PHP code"></textarea>
+          </div>
+          <div class="terminal" aria-live="polite">
+            <div class="terminal-header">
+              <div class="terminal-dots" aria-hidden="true"><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span></div>
+              <span class="terminal-title">terminal output</span>
+            </div>
+            <pre class="terminal-output"></pre>
+          </div>
+        </article>
+
+        <article class="lab-card" data-snippet="score">
+          <div class="editor">
+            <div class="editor-header">
+              <div class="editor-title">
+                <strong>Question 7: If / Else</strong>
+                <span>Editable answer snippet</span>
+              </div>
+              <div class="editor-actions">
+                <button class="icon-button run" type="button" data-run title="Run this snippet">Run</button>
+                <button class="icon-button" type="button" data-reset title="Reset to answer">Reset</button>
+                <button class="icon-button" type="button" data-copy title="Copy code">Copy</button>
+              </div>
+            </div>
+            <textarea spellcheck="false" aria-label="Question 7 PHP code"></textarea>
+          </div>
+          <div class="terminal" aria-live="polite">
+            <div class="terminal-header">
+              <div class="terminal-dots" aria-hidden="true"><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span></div>
+              <span class="terminal-title">terminal output</span>
+            </div>
+            <pre class="terminal-output"></pre>
+          </div>
+        </article>
+
+        <article class="lab-card" data-snippet="greet">
+          <div class="editor">
+            <div class="editor-header">
+              <div class="editor-title">
+                <strong>Question 9: Custom Function</strong>
+                <span>Editable answer snippet</span>
+              </div>
+              <div class="editor-actions">
+                <button class="icon-button run" type="button" data-run title="Run this snippet">Run</button>
+                <button class="icon-button" type="button" data-reset title="Reset to answer">Reset</button>
+                <button class="icon-button" type="button" data-copy title="Copy code">Copy</button>
+              </div>
+            </div>
+            <textarea spellcheck="false" aria-label="Question 9 PHP code"></textarea>
+          </div>
+          <div class="terminal" aria-live="polite">
+            <div class="terminal-header">
+              <div class="terminal-dots" aria-hidden="true"><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span></div>
+              <span class="terminal-title">terminal output</span>
+            </div>
+            <pre class="terminal-output"></pre>
+          </div>
+        </article>
+
+        <article class="lab-card" data-snippet="concat">
+          <div class="editor">
+            <div class="editor-header">
+              <div class="editor-title">
+                <strong>Question 11: String Concatenation</strong>
+                <span>Editable answer snippet</span>
+              </div>
+              <div class="editor-actions">
+                <button class="icon-button run" type="button" data-run title="Run this snippet">Run</button>
+                <button class="icon-button" type="button" data-reset title="Reset to answer">Reset</button>
+                <button class="icon-button" type="button" data-copy title="Copy code">Copy</button>
+              </div>
+            </div>
+            <textarea spellcheck="false" aria-label="Question 11 PHP code"></textarea>
+          </div>
+          <div class="terminal" aria-live="polite">
+            <div class="terminal-header">
+              <div class="terminal-dots" aria-hidden="true"><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span></div>
+              <span class="terminal-title">terminal output</span>
+            </div>
+            <pre class="terminal-output"></pre>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const snippets = {
+      colors: `<?php
+
+// Question 5: Indexed array.
+$colors = ["red", "green", "blue"];
+
+echo "Colors:\\n";
+foreach ($colors as $color) {
+    echo "- " . $color . "\\n";
+}`,
+      score: `<?php
+
+// Question 7: Simple if/else statement.
+$score = 75;
+
+if ($score > 50) {
+    echo "Passed\\n";
+} else {
+    echo "Failed\\n";
+}`,
+      greet: `<?php
+
+// Question 9: Custom function with one parameter.
+function greet($name) {
+    return "Hello, " . $name;
+}
+
+echo greet("Rafael") . "\\n";`,
+      concat: `<?php
+
+// Question 11: String concatenation.
+$firstName = "Ada";
+$lastName = "Lovelace";
+$fullName = $firstName . " " . $lastName;
+
+echo $fullName . "\\n";`
+    };
+
+    const toast = document.querySelector(".toast");
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function normalizePhpValue(value) {
+      const trimmed = value.trim();
+      if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
+        return trimmed.slice(1, -1).replace(/\\n/g, "\n").replace(/\\t/g, "\t");
+      }
+      if (/^-?\d+(\.\d+)?$/.test(trimmed)) {
+        return Number(trimmed);
+      }
+      return trimmed;
+    }
+
+    function parseAssignments(code) {
+      const vars = {};
+      const assignmentPattern = /\$([A-Za-z_]\w*)\s*=\s*(.+?);/g;
+      let match;
+
+      while ((match = assignmentPattern.exec(code)) !== null) {
+        const name = match[1];
+        const expression = match[2].trim();
+        const arrayMatch = expression.match(/^\[(.*)\]$/s);
+
+        if (arrayMatch) {
+          vars[name] = arrayMatch[1]
+            .split(",")
+            .map(item => normalizePhpValue(item))
+            .filter(item => item !== "");
+          continue;
+        }
+
+        vars[name] = evaluatePhpExpression(expression, vars);
+      }
+
+      return vars;
+    }
+
+    function evaluatePhpExpression(expression, vars = {}) {
+      const parts = expression
+        .split(/\s*\.\s*/)
+        .map(part => part.trim())
+        .filter(Boolean);
+
+      if (parts.length > 1) {
+        return parts.map(part => evaluatePhpExpression(part, vars)).join("");
+      }
+
+      const single = parts[0] || expression.trim();
+      const variableMatch = single.match(/^\$([A-Za-z_]\w*)$/);
+      if (variableMatch) {
+        return vars[variableMatch[1]] ?? "";
+      }
+
+      return normalizePhpValue(single);
+    }
+
+    function renderEchoes(code, vars) {
+      const output = [];
+      const echoPattern = /echo\s+(.+?);/gs;
+      let match;
+
+      while ((match = echoPattern.exec(code)) !== null) {
+        const expression = match[1].trim();
+        const functionCall = expression.match(/^([A-Za-z_]\w*)\((["'])(.*?)\2\)(?:\s*\.\s*["']\\n["'])?$/s);
+
+        if (functionCall) {
+          const functionName = functionCall[1];
+          const argument = functionCall[3];
+          if (functionName === "greet") {
+            output.push(`Hello, ${argument}${expression.includes("\\n") ? "\n" : ""}`);
+            continue;
+          }
+        }
+
+        output.push(String(evaluatePhpExpression(expression, vars)));
+      }
+
+      return output.join("");
+    }
+
+    function runColors(code) {
+      const vars = parseAssignments(code);
+      const colors = Array.isArray(vars.colors) ? vars.colors : [];
+      const introMatch = code.match(/echo\s+["']([^"']*Colors:[^"']*)["']\s*;/i);
+      const intro = introMatch ? introMatch[1].replace(/\\n/g, "\n") : "Colors:\n";
+      return intro + colors.map(color => `- ${color}\n`).join("");
+    }
+
+    function runScore(code) {
+      const vars = parseAssignments(code);
+      const score = Number(vars.score ?? 0);
+      const conditionMatch = code.match(/if\s*\(\s*\$score\s*([><=!]=?|===)\s*(-?\d+(?:\.\d+)?)\s*\)/);
+      const passMatch = code.match(/if\s*\([^)]+\)\s*\{\s*echo\s+["']([^"']*)["']\s*;/s);
+      const failMatch = code.match(/else\s*\{\s*echo\s+["']([^"']*)["']\s*;/s);
+      const operator = conditionMatch ? conditionMatch[1] : ">";
+      const threshold = conditionMatch ? Number(conditionMatch[2]) : 50;
+
+      const checks = {
+        ">": score > threshold,
+        "<": score < threshold,
+        ">=": score >= threshold,
+        "<=": score <= threshold,
+        "==": score == threshold,
+        "===": score === threshold,
+        "!=": score != threshold
+      };
+
+      const passed = checks[operator] ?? score > threshold;
+      const chosen = passed ? passMatch?.[1] : failMatch?.[1];
+      return (chosen || (passed ? "Passed\\n" : "Failed\\n")).replace(/\\n/g, "\n");
+    }
+
+    function runGreet(code) {
+      const callMatch = code.match(/echo\s+greet\((["'])(.*?)\1\)\s*(?:\.\s*["']\\n["'])?\s*;/s);
+      const returnMatch = code.match(/return\s+(.+?);/s);
+      const name = callMatch ? callMatch[2] : "Rafael";
+      const vars = { name };
+      const expression = returnMatch ? returnMatch[1] : '"Hello, " . $name';
+      const result = evaluatePhpExpression(expression, vars);
+      return String(result) + (code.includes('greet("' + name + '") . "\\n"') || code.includes("greet('" + name + "') . '\\n'") ? "\n" : "");
+    }
+
+    function runConcat(code) {
+      const vars = parseAssignments(code);
+      if (typeof vars.fullName === "string") {
+        return vars.fullName + (code.includes("\\n") ? "\n" : "");
+      }
+      return renderEchoes(code, vars);
+    }
+
+    function runSnippet(type, code) {
+      try {
+        if (!code.trim()) {
+          return "No code to run. Click Reset to restore the answer snippet.\n";
+        }
+
+        if (type === "colors") return runColors(code);
+        if (type === "score") return runScore(code);
+        if (type === "greet") return runGreet(code);
+        if (type === "concat") return runConcat(code);
+
+        return renderEchoes(code, parseAssignments(code));
+      } catch (error) {
+        return "The practice terminal could not parse that edit. Reset the snippet or keep the PHP close to the answer pattern.\n";
+      }
+    }
+
+    function initializeLabCard(card) {
+      const type = card.dataset.snippet;
+      const textarea = card.querySelector("textarea");
+      const output = card.querySelector(".terminal-output");
+      const runButton = card.querySelector("[data-run]");
+      const resetButton = card.querySelector("[data-reset]");
+      const copyButton = card.querySelector("[data-copy]");
+
+      textarea.value = snippets[type];
+      output.textContent = runSnippet(type, textarea.value);
+
+      runButton.addEventListener("click", () => {
+        output.textContent = runSnippet(type, textarea.value);
+        showToast("Snippet ran in the practice terminal.");
+      });
+
+      resetButton.addEventListener("click", () => {
+        textarea.value = snippets[type];
+        output.textContent = runSnippet(type, textarea.value);
+        showToast("Code reset to the assessment answer.");
+      });
+
+      copyButton.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(textarea.value);
+          showToast("Code copied.");
+        } catch (error) {
+          textarea.select();
+          showToast("Select the code and copy it manually.");
+        }
+      });
+    }
+
+    const answerSearch = document.querySelector("#answerSearch");
+    if (answerSearch) {
+      answerSearch.addEventListener("input", event => {
+        const query = event.target.value.trim().toLowerCase();
+        document.querySelectorAll(".qa-card").forEach(card => {
+          const haystack = `${card.dataset.searchText || ""} ${card.textContent}`.toLowerCase();
+          const matches = haystack.includes(query);
+          card.hidden = !matches;
+        });
+      });
+    }
+
+    document.querySelectorAll(".lab-card").forEach(initializeLabCard);
+
+    document.querySelector("[data-run-all]").addEventListener("click", () => {
+      document.querySelectorAll(".lab-card").forEach(card => {
+        const textarea = card.querySelector("textarea");
+        const output = card.querySelector(".terminal-output");
+        output.textContent = runSnippet(card.dataset.snippet, textarea.value);
+      });
+      showToast("All snippets ran.");
+    });
+
+    document.querySelector("[data-reset-all]").addEventListener("click", () => {
+      document.querySelectorAll(".lab-card").forEach(card => {
+        const textarea = card.querySelector("textarea");
+        const output = card.querySelector(".terminal-output");
+        textarea.value = snippets[card.dataset.snippet];
+        output.textContent = runSnippet(card.dataset.snippet, textarea.value);
+      });
+      showToast("All snippets reset to the answers.");
+    });
+  </script>
+</body>
+</html>
